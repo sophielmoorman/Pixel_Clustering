@@ -3,37 +3,50 @@
 from imageio import imread, imsave
 import matplotlib.pyplot as plot
 from sklearn.cluster import KMeans
+import numpy as np
+
+# input variables
+k = 4
+image_paths = ["Images\CRAYON.jpg","Images\DOG.jpg", "Images\CATAN.jpg"]
 
 #  grab image
-image_path = "Images\DOG.jpg"
-image = imread(image_path)
+for image_path in image_paths:
+    # Get image values
+    image = imread(image_path)
 
-# KMeans cluster an image
-k = 3
-image_2d = image.reshape((-1, 3))
+    # KMeans cluster an image
+    image_2d = image.reshape((-1, 3))
 
-# Big mama KMeans wants to choose how the babies are (eugenics)
-# Big mama makes classifiers
-# tell mama how many buckets the kid will need to carry (# of arms)
-#classifier =  organizer into buckets
-kmeans = KMeans(n_clusters=k)
+    # Big mama KMeans wants to choose how the babies are (eugenics)
+    # Big mama makes classifiers
+    # tell mama how many buckets the kid will need to carry (# of arms)
+    #classifier =  organizer into buckets
+    kmeans = KMeans(n_clusters=k)
 
-# classify to this data
-kmeans.fit(image_2d)
+    # classify to this data
+    kmeans.fit(image_2d)
 
-labels = kmeans.labels_
-# labels = labels.flatten()
-centers =  kmeans.cluster_centers_
+    labels = kmeans.labels_
+    # labels = labels.flatten()
+    centers =  kmeans.cluster_centers_
 
-new_image = centers[labels]
+    # assign bucket its avg/ center color
+    new_image = centers[labels]
 
-# print(image_2d.shape)
+    # back to RGB shape
+    original_shape = image.shape
 
-# show image
-# plot.imshow(image)
-# plot.show()
+    #new_image = new_image.reshape((2048, 2048, 3))
+    new_image = new_image.reshape(original_shape)
 
-# show image
-# plot.close()
-# plot.imshow(new_image)
-# plot.show()
+    # fix data type
+    new_image = np.ndarray.astype(new_image, "uint8") 
+
+    # show image
+    # plot.imshow(image)
+    # plot.show()
+
+    # show image
+    # plot.close()
+    plot.imshow(new_image)
+    plot.show()
