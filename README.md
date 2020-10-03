@@ -1,2 +1,2 @@
 # Pixel_Clustering
- K means 
+Used K means to classify pixels and recolor picture using cluster centers.
